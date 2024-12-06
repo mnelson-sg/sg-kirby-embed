@@ -7,7 +7,7 @@ return array(
         if (!V::url($url)) {
             $response['status'] = 'error';
             $response['error']  = 'The $url variable is not an url';
-        } 
+        }
         else {
             try {
                 $embed = new Embed\Embed();
@@ -37,7 +37,7 @@ return array(
                 if ($response['data']['providerName'] === 'Instagram') {
                     $response['data']['code'] = '
                         <blockquote class="instagram-media" data-instgrm-permalink="' . $response['data']['url'] . '?utm_source=ig_embed&amp;utm_campaign=loading" data-instgrm-version="14" style=" background:#FFF; border:0; border-radius:3px; box-shadow:0 0 1px 0 rgba(0,0,0,0.5),0 1px 10px 0 rgba(0,0,0,0.15); margin: 1px; padding:0; width:99.375%; width:-webkit-calc(100% - 2px); width:calc(100% - 2px);">
-                          <div style="padding:16px;"> 
+                          <div style="padding:16px;">
                               <a href="' . $response['data']['url'] . '?utm_source=ig_embed&amp;utm_campaign=loading" style=" background:#FFFFFF; line-height:0; padding:0 0; text-align:center; text-decoration:none; width:100%;" target="_blank">
                                   <div style=" display: flex; flex-direction: row; align-items: center;">
                                       <div style="background-color: #F4F4F4; border-radius: 50%; flex-grow: 0; height: 40px; margin-right: 14px; width: 40px;"></div>
@@ -87,7 +87,12 @@ return array(
                       </blockquote>
                       <script async src="https://www.instagram.com/embed.js"></script>';
                 }
-            } 
+                if ($response['data']['providerName'] === 'Twitch') {
+                    $response['data']['code'] = '
+                    <iframe src="'. str_replace('www.twitch.tv/videos/', 'player.twitch.tv/?video=', $response['data']['url']) .'&amp;parent=schellgames.com&amp;autoplay=false" width="640" height="360" allowfullscreen="true" allowtransparency="true"></iframe>
+                  ';
+                }
+            }
             catch (Exception $e) {
                 $response['status'] = 'error';
                 $response['error']  = $e->getMessage();
