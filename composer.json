@@ -16,7 +16,7 @@
     ],
     "require": {
         "getkirby/composer-installer": "^1.1",
-        "embed/embed": "4.4.8",
+        "embed/embed": "4.4.15",
         "guzzlehttp/psr7": "^2.6"
     },
     "extra": {

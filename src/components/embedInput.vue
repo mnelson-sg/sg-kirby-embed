@@ -20,6 +20,9 @@ export default {
             if(value.includes('https://www.instagram.com')) {
                 value = value.split('?')[0].replace(/\/$/, "");
             }
+            if (value.includes('x.com')) {
+                value = value.replace('x.com', 'twitter.com');
+            }
 
             this.$emit('startLoading')
             this.$api
@@ -28,14 +31,13 @@ export default {
                     if(response['status'] == 'success' && response['data']) {
                         if(response['data']['providerName'] == 'Vimeo') {
                             let iframe = response['data']['code']
-                                iframe = this.htmlToElement(iframe)
-                                iframe.setAttribute('referrerpolicy', 'strict-origin-when-cross-origin')
+                            iframe = this.htmlToElement(iframe)
+                            iframe.setAttribute('referrerpolicy', 'strict-origin-when-cross-origin')
 
                             response['data']['code'] = iframe.outerHTML
                         }
                         this.media = response['data']
-                    }
-                    else {
+                    } else {
                         this.media = {}
                     }
 
@@ -47,7 +49,7 @@ export default {
                 })
         },
         emitInput(value) {
-            this.$emit("input", { input: value, media: this.media });
+            this.$emit("input", {input: value, media: this.media});
             this.$emit("setMedia", this.media)
 
             this.loadEmbedScripts()
@@ -55,30 +57,28 @@ export default {
         loadEmbedScripts() {
             if (window.twttr) {
                 window.twttr.widgets.load();
-            }
-            else if (this.media && Object.keys(this.media).length && this.media.providerName.toLowerCase() == 'twitter') {
+            } else if (this.media && Object.keys(this.media).length && this.media.providerName.toLowerCase() == 'twitter') {
                 const embed = document.createElement('script');
-                      embed.src = 'https://platform.twitter.com/widgets.js';
-                      document.body.appendChild(embed);
+                embed.src = 'https://platform.twitter.com/widgets.js';
+                document.body.appendChild(embed);
             }
 
             if (window.instgrm) {
                 window.instgrm.Embeds.process();
-            }
-            else if (this.media && Object.keys(this.media).length && this.media.providerName.toLowerCase() == 'instagram') {
+            } else if (this.media && Object.keys(this.media).length && this.media.providerName.toLowerCase() == 'instagram') {
                 const embed = document.createElement('script');
-                      embed.src = 'https://www.instagram.com/embed.js';
-                      document.body.appendChild(embed);
+                embed.src = 'https://www.instagram.com/embed.js';
+                document.body.appendChild(embed);
             }
         },
         isEmbeddableUrl(value) {
-            if(!isUrl(value)) return false
-            if(this.provider && !matchProvider(value, this.provider)) return false
+            if (!isUrl(value)) return false
+            if (this.provider && !matchProvider(value, this.provider)) return false
             return true
         },
         htmlToElement(html) {
             let template = document.createElement('template')
-                html     = html.trim()
+            html = html.trim()
 
             template.innerHTML = html
             return template.content.firstChild
