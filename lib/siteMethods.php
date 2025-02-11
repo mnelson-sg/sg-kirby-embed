@@ -11,11 +11,11 @@ return array(
         else {
             try {
                 $embed = new Embed\Embed();
-                $embed = $embed->get($url);
-
                 $embed->setSettings([
-                    'facebook:token' => '1266288248001615|96f77add1be77f000d84689bf4d4e0b4',  //Required to embed content from Facebook
+                    'facebook:token' => ''.$_ENV['FB_APPID'] . '|' . $_ENV['FB_APPSECRET'],  //Required to embed content from Facebook
                 ]);
+
+                $embed = $embed->get($url);
 
                 $response['status'] = 'success';
                 $response['data']   = array(
